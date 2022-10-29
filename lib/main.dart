@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,6 +30,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var tiles = List.filled(9, 0);
+  void refresh() {
+    tiles = List.filled(9, 0);
+    var intValue = Random().nextInt(2);
+    if (intValue == 1) {
+      runAi();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    refresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,50 +51,91 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text('Tic-Tac-Toe'),
         ),
-        body: Row(
-          children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: GridView.count(
-                crossAxisCount: 3,
-                children: [
-                  for (var i = 0; i < 9; i++)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          tiles[i] = 1;
-                          runAi();
-                        });
-                      },
-                      child: Center(
-                        child: Text(tiles[i] == 0
-                            ? ''
-                            : tiles[i] == 1
-                                ? 'X'
-                                : '0'),
-                      ),
-                    )
-                ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: GridView.count(
+                  padding: EdgeInsets.all(15),
+                  crossAxisCount: 3,
+                  children: [
+                    for (var i = 0; i < 9; i++)
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 0,
+                        margin: EdgeInsets.all(1),
+                        child: InkWell(
+                          onTap: () {
+                            if (isWinning(1, tiles)) {
+                              return;
+                            } else if (isWinning(2, tiles)) {
+                              return;
+                            } else {
+                              setState(() {
+                                if (tiles[i] == 0) {
+                                  tiles[i] = 1;
+                                  runAi();
+                                }
+                              });
+                            }
+                          },
+                          child: Center(
+                            child: Text(
+                              tiles[i] == 0
+                                  ? ''
+                                  : tiles[i] == 1
+                                      ? '✖️'
+                                      : '⭕',
+                              style: TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                  ],
+                ),
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(isWinning(1, tiles)
-                    ? 'You Won!'
-                    : isWinning(2, tiles)
-                        ? 'You Lost!'
-                        : 'Your move'),
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        tiles = List.filled(9, 0);
-                      });
-                    },
-                    child: Text('Restart')),
-              ],
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        isWinning(1, tiles)
+                            ? 'You Won!'
+                            : isWinning(2, tiles)
+                                ? 'You Lost!'
+                                : 'Your move',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.blue),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              refresh();
+                            });
+                          },
+                          child: Text(
+                            'Restart',
+                            style: TextStyle(fontSize: 18),
+                          )),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ));
   }
 

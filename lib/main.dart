@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        canvasColor: Color.fromARGB(255, 110, 255, 255),
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
@@ -49,7 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Tic-Tac-Toe'),
+          backgroundColor: Colors.cyanAccent,
+          shadowColor: Colors.black,
+          foregroundColor: Colors.black,
+          centerTitle: true,
+          title: Text('Tic Tac Toe'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -101,6 +106,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 15,
+                      side: BorderSide(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        refresh();
+                      });
+                    },
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(fontSize: 22, color: Colors.cyan),
+                    )),
+              ),
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,25 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ? 'You Lost!'
                                 : 'Your move',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                         )),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Colors.blue),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              refresh();
-                            });
-                          },
-                          child: Text(
-                            'Restart',
-                            style: TextStyle(fontSize: 18),
-                          )),
-                    ),
                   ],
                 ),
               )

@@ -14,8 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        canvasColor: Color.fromARGB(255, 110, 255, 255),
-        primarySwatch: Colors.blue,
+        // canvasColor: Color.fromARGB(255, 110, 255, 255),
+        canvasColor: Colors.red[600],
+        primarySwatch: Colors.amber,
       ),
       home: MyHomePage(),
     );
@@ -50,9 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.cyanAccent,
+          backgroundColor: Colors.red,
           shadowColor: Colors.black,
-          foregroundColor: Colors.black,
+          foregroundColor: Colors.white,
           centerTitle: true,
           title: Text('Tic Tac Toe'),
         ),
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: Text(
                       'Restart',
-                      style: TextStyle(fontSize: 22, color: Colors.cyan),
+                      style: TextStyle(fontSize: 22, color: Colors.red),
                     )),
               ),
               Padding(
@@ -135,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ? 'You Lost!'
                                 : 'Your move',
                         style: TextStyle(
+                          color: Colors.white,
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                         )),
